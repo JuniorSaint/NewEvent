@@ -1,0 +1,65 @@
+<div id="main">
+  <mat-card id="content-div">
+    <p>
+      <mat-toolbar style="background-color: royalblue">
+        <span>My Application</span>
+      </mat-toolbar>
+    </p>
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      class="mat-elevation-z8"
+      *ngIf="dataSource && dataSource.length; else messageNotFound"
+    >
+      <ng-container matColumnDef="UserName">
+        <th mat-header-cell *matHeaderCellDef>Nome do Usuário</th>
+        <td mat-cell *matCellDef="let element">{{ element.userName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="Email">
+        <th mat-header-cell *matHeaderCellDef>E-mail</th>
+        <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="IsActive">
+        <th mat-header-cell *matHeaderCellDef>Condição do Usuário</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.isActive == "yes" ? "Ativo" : "Inativo" }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="UserType">
+        <th mat-header-cell *matHeaderCellDef>Tipo de Usuáro</th>
+        <td mat-cell *matCellDef="let element">
+          {{
+            element.userType == "administrator" ? "Administrador" : "Usuário"
+          }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Action">
+        <th mat-header-cell *matHeaderCellDef>
+          <button id="btn-hide" mat-stroked-button (click)="newForm()">
+            Novo Usuário
+          </button>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <button (click)="editForm(element.id)" class="btn-edit">
+            Editar
+          </button>
+          <button (click)="delete(element.id)" class="btn-delete">
+            Deletar
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <ng-template #messageNotFound>
+      <div id="messageNotFound">
+        <h2>Não há itens a serem listados</h2>
+      </div>
+    </ng-template>
+  </mat-card>
+</div>

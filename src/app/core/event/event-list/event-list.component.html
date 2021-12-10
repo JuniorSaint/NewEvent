@@ -1,0 +1,84 @@
+<div id="main">
+  <mat-card id="content-div">
+    <p>
+      <mat-toolbar style="background-color: royalblue">
+        <mat-form-field appearance="outline">
+          <mat-label>Busca por evento e cidade</mat-label>
+          <input type="text" matInput [formControl]="queryField" />
+        </mat-form-field>
+      </mat-toolbar>
+    </p>
+    <table
+      mat-table
+      [dataSource]="
+        dataSource$
+          | paginate
+            : {
+                itemsPerPage: pagination.itemsPerPage,
+                currentPage: pagination.currentPage,
+                totalItems: pagination.totalItems
+              }
+      "
+      class="mat-elevation-z8"
+      *ngIf="dataSource$; else messageNotFound"
+    >
+      <ng-container matColumnDef="Image">
+        <th mat-header-cell *matHeaderCellDef>
+          <button id="btn-hide" mat-stroked-button (click)="newForm()">
+            Novo Evento
+          </button>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <span>
+            <button
+              id="btn-detail"
+              mat-stroked-button
+              (click)="detailEvent(element.id)"
+            >
+              Detalhe Evento
+            </button>
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Local">
+        <th mat-header-cell *matHeaderCellDef>Local - Data</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.local }} <br />
+          <br />
+          {{ element.eventDate | date: "dd/MM/yyyy HH:mm" }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Thema">
+        <th mat-header-cell *matHeaderCellDef>Tema</th>
+        <td mat-cell *matCellDef="let element">{{ element.theme }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="Phone">
+        <th mat-header-cell *matHeaderCellDef>Telefone</th>
+        <td mat-cell *matCellDef="let element">{{ element.phone }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <!-- pagination  -->
+    <pagination-controls
+      (pageChange)="pageChanged($event)"
+    ></pagination-controls>
+
+    <ng-template #messageNotFound>
+      <div id="messageNotFound">
+        <h2>Não há itens a serem listados</h2>
+      </div>
+    </ng-template>
+  </mat-card>
+  <div>
+    <app-event-detail
+      *ngIf="showDetail"
+      [id]="idEvent"
+      (resetList)="resetForm()"
+    ></app-event-detail>
+  </div>
+</div>

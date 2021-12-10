@@ -1,0 +1,27 @@
+<div id="main-div">
+  <mat-card class="card">
+    <div id="header-div">
+      <mat-card id="header-card">{{ speakerFind?.speakerName }}</mat-card>
+    </div>
+    <div id="image-div">
+      <img src="/assets/img/{{ speakerFind?.speakerImage }}" />
+    </div>
+    <mat-card-content>
+      <p><span>Telefone:</span> {{ speakerFind?.speakerPhone }}</p>
+      <p><span>E-mail:</span> {{ speakerFind?.speakerEmail }}</p>
+      <p><span>Redes Sociais:</span> {{ speakerFind?.socialMedia }}</p>
+      <p><span>Currículo:</span> {{ speakerFind?.miniResume }}</p>
+      <p>
+        <span>Idade:</span>
+        {{ speakerFind.age <= 0 ? 'Idade não informada' : speakerFind.age }}
+        anos
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button (click)="editForm()" class="btn-edit">Editar</button>
+      <button (click)="delete(speakerFind.id)" class="btn-delete">
+        Deletar
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

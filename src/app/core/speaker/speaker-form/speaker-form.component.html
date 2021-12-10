@@ -1,0 +1,146 @@
+<main id="main">
+  <div id="container">
+    <div id="form-content">
+      <form [formGroup]="formulario">
+        <mat-card>
+          <mat-card style="width: 93%; margin: 15px; margin-right: 10px">
+            <p style="letter-spacing: 1px; font-size: 1.5rem; margin: center">
+              {{ pageTitle }}
+            </p>
+          </mat-card>
+
+          <mat-card-content>
+            <div class="card-div">
+              <!-- Primeira Linha -->
+              <div class="line-div">
+                <mat-form-field class="input-form" appearance="outline">
+                  <mat-label>Palestrante</mat-label>
+                  <input
+                    matInput
+                    formControlName="speakerName"
+                    autocomplete="off"
+                  />
+                  <mat-error
+                    *ngIf="
+                      formulario.controls['speakerName'].hasError('required') &&
+                      formulario.touched
+                    "
+                  >
+                    Nome do palestrante é campo
+                    <strong style="letter-spacing: 1px">obrigatório</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <div class="line-div">
+                  <mat-form-field class="input-form" appearance="outline">
+                    <mat-label>Imagem</mat-label>
+                    <input
+                      matInput
+                      formControlName="speakerImage"
+                      autocomplete="off"
+                    />
+                    <mat-error
+                      *ngIf="
+                        formulario.controls['speakerImage'].hasError(
+                          'pattern'
+                        ) && formulario.touched
+                      "
+                    >
+                      Nome da imagem incompleta ou extensão inválida
+                    </mat-error>
+                    <mat-error
+                      *ngIf="
+                        formulario.controls['speakerImage'].hasError(
+                          'required'
+                        ) && formulario.touched
+                      "
+                    >
+                      Nome da Imagem é campo obrigatório
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <!-- Segunda Linha  -->
+              <div class="line-div">
+                <mat-form-field class="input-form" appearance="outline">
+                  <mat-label>Telefone</mat-label>
+                  <input
+                    type="tel"
+                    matInput
+                    formControlName="speakerPhone"
+                    mask="(00) 0000-0000 || (00) 00000-0000"
+                    [showMaskTyped]="true"
+                    autocomplete="off"
+                  />
+                  <mat-error
+                    *ngIf="
+                      formulario.controls['speakerPhone'].hasError(
+                        'required'
+                      ) && formulario.touched
+                    "
+                  >
+                    Telefone do palestrante é campo obrigatório
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field
+                  class="input-form second-field"
+                  appearance="outline"
+                >
+                  <mat-label>Email</mat-label>
+                  <input
+                    matInput
+                    formControlName="speakerEmail"
+                    autocomplete="off"
+                  />
+                  <mat-error
+                    *ngIf="
+                      formulario.controls['speakerEmail'].hasError(
+                        'required'
+                      ) && formulario.touched
+                    "
+                  >
+                    E-mail do palestrante é campo obrigatório
+                  </mat-error>
+                  <mat-error
+                    *ngIf="
+                      formulario.controls['speakerEmail'].hasError('email') &&
+                      formulario.touched
+                    "
+                  >
+                    E-mail do palestrante esta com formato errado
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <!-- Terceira Linha  -->
+              <div class="line-div">
+                <mat-form-field
+                  class="input-form third-field"
+                  appearance="outline"
+                >
+                  <mat-label>Currículo Resumido</mat-label>
+                  <textarea
+                    matInput
+                    formControlName="miniResume"
+                    autocomplete="off"
+                  ></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-card-content>
+
+          <mat-card-actions>
+            <button mat-raised-button (click)="onSubmit()" class="btn-save">
+              {{ txtBtn }}
+            </button>
+            <button mat-raised-button (click)="btnVoltar()" class="btn-return">
+              Voltar
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </form>
+    </div>
+  </div>
+</main>

@@ -1,0 +1,91 @@
+// Mixins
+@mixin reset {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Lato';
+  }
+  a {
+    text-decoration: none;
+  }
+  li {
+    list-style: none;
+  }
+}
+
+%main-hover {
+  transition: 0.3s;
+  &:hover {
+    color: #ff5200;
+  }
+}
+
+.btn {
+  padding: 0.6rem 1rem;
+  border: 1px solid #fff;
+  text-transform: uppercase;
+  border-radius: 5px;
+  transition: 0.3s;
+  color: $light-color;
+  &:hover {
+    border-color: $primary-color;
+    color: $primary-color;
+  }
+  &-primary {
+    background-color: #ff5200;
+    border-color: #ff5200;
+    &:hover {
+      background-color: transparent;
+    }
+  }
+  &-rounded {
+    margin-top: 1rem;
+    border-radius: 2rem;
+    padding: 1rem 1.5rem;
+  }
+}
+
+%text-shadow-title {
+  text-shadow: 3px 2px $black;
+}
+
+%section-title {
+  font-size: 3rem;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+%center-bg {
+  background-size: cover;
+  background-position: center;
+}
+
+%card-hover {
+  .job-card-title,
+  .job-card-cover,
+  .job-card-description {
+    opacity: 0;
+  }
+  &:hover {
+    .job-card-title,
+    .job-card-cover,
+    .job-card-description {
+      opacity: 1;
+    }
+  }
+}
+
+// mobile
+@mixin mobile {
+  @media (max-width: 425px) {
+    @content;
+  }
+}
+
+@mixin card-mobile {
+  width: 100%;
+  height: 200px;
+  margin: 0;
+  margin-bottom: 2rem;
+}

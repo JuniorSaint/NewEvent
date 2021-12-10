@@ -1,0 +1,66 @@
+<div id="main">
+  <mat-card id="content-div">
+    <p>
+      <mat-toolbar style="background-color: royalblue">
+        <span>My Application</span>
+      </mat-toolbar>
+    </p>
+    <table
+      mat-table
+      [dataSource]="dataSource$"
+      class="mat-elevation-z8"
+      *ngIf="dataSource$ && dataSource$.length; else messageNotFound"
+    >
+      <ng-container matColumnDef="Button">
+        <th mat-header-cell *matHeaderCellDef>
+          <button id="btn-hide" mat-stroked-button (click)="newForm()">
+            Novo Evento
+          </button>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <span>
+            <button
+              id="btn-detail"
+              mat-stroked-button
+              (click)="detailSpeaker(element.id)"
+            >
+              Detalhe Evento
+            </button>
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="speakerName">
+        <th mat-header-cell *matHeaderCellDef>Palestrante</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.speakerName }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="speakerEmail">
+        <th mat-header-cell *matHeaderCellDef>Tema</th>
+        <td mat-cell *matCellDef="let element">{{ element.speakerEmail }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="Phone">
+        <th mat-header-cell *matHeaderCellDef>Telefone</th>
+        <td mat-cell *matCellDef="let element">{{ element.speakerPhone }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <ng-template #messageNotFound>
+      <div id="messageNotFound">
+        <h2>Não há itens a serem listados</h2>
+      </div>
+    </ng-template>
+  </mat-card>
+  <div>
+    <app-speaker-detail
+      *ngIf="showDetail"
+      [id]="idSpeaker"
+      (resetList)="resetForm()"
+    ></app-speaker-detail>
+  </div>
+</div>

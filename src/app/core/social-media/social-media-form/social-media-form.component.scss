@@ -1,0 +1,46 @@
+
+@import '../../../Shared/style/mixins';
+@import'../../../Shared/style/button';
+@import '../../../Shared/style/reset';
+
+
+  
+  #main
+  {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    margin-top: 50px;
+    .line-div
+    {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;    
+    }
+    .input-form
+    {
+      width: 250px;      
+    }
+    .second-field
+    {
+      margin-left: 15px;
+    }
+
+    #container
+    {
+     
+      #header-card
+      {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+      .card-div
+      {
+        
+      }
+    }
+  }
+
+
+  

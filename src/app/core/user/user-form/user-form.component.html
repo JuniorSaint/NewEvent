@@ -1,0 +1,225 @@
+<main id="main">
+  <div id="container">
+    <form [formGroup]="formulario">
+      <mat-card>
+        <mat-card style="width: 93%; margin: 15px; margin-right: 10px">
+          <p style="letter-spacing: 1px; font-size: 1.5rem; margin: center">
+            {{ pageTitle }}
+          </p>
+        </mat-card>
+
+        <mat-card-content>
+          <div class="card-div">
+            <div class="line-div">
+              <!-- First line -->
+              <mat-form-field class="input-form" appearance="outline">
+                <mat-label>Nome do Usuário</mat-label>
+                <input matInput formControlName="userName" autocomplete="off" />
+                <mat-error
+                  *ngIf="
+                    formulario.controls['userName'].hasError('required') &&
+                    formulario.touched
+                  "
+                >
+                  Nome é
+                  <strong style="letter-spacing: 1px">obrigatório</strong>
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field
+                class="input-form second-field"
+                appearance="outline"
+              >
+                <mat-label>Email do Usuário</mat-label>
+                <input matInput formControlName="email" autocomplete="off" />
+                <mat-error
+                  *ngIf="
+                    formulario.controls['email'].hasError('required') &&
+                    formulario.touched
+                  "
+                >
+                  Email é
+                  <strong style="letter-spacing: 1px">obrigatório</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="
+                    formulario.controls['email'].hasError('pattern') &&
+                    formulario.touched
+                  "
+                >
+                  E-mail com formato inválido
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!-- identity -->
+            <div class="line-div">
+              <mat-form-field class="input-form" appearance="outline">
+                <mat-label>Imagem</mat-label>
+                <input
+                  matInput
+                  formControlName="userImage"
+                  autocomplete="off"
+                />
+                <mat-error
+                  *ngIf="
+                    formulario.controls['userImage'].hasError('pattern') &&
+                    formulario.touched
+                  "
+                >
+                  Nome da imagem incompleta ou extensão inválida
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="input-form" appearance="outline">
+                <mat-label>Telefone</mat-label>
+                <input
+                  type="tel"
+                  matInput
+                  formControlName="phoneNumber"
+                  mask="(00) 0000-0000 || (00) 00000-0000"
+                  [showMaskTyped]="true"
+                  autocomplete="off"
+                />
+              </mat-form-field>
+            </div>
+            <!-- Password Line  -->
+
+            <div class="line-div">
+              <mat-form-field class="input-form" appearance="outline">
+                <mat-label>Senha</mat-label>
+                <input
+                  formControlName="password"
+                  matInput
+                  [type]="hide ? 'password' : 'text'"
+                  autocomplete="off"
+                />
+                <mat-error
+                  *ngIf="
+                    formulario.controls['password'].hasError('required') &&
+                    formulario.touched
+                  "
+                >
+                  Senha de Usuário é
+                  <strong style="letter-spacing: 1px">obrigatório</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="
+                    formulario.controls['password'].hasError('minLength') &&
+                    formulario.touched
+                  "
+                >
+                  Senha deve conter no mínimo
+                  <strong style="letter-spacing: 1px">6 caracteres</strong>
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field
+                class="input-form second-field"
+                appearance="outline"
+              >
+                <mat-label>Repita Senha</mat-label>
+                <input
+                  formControlName="repPassword"
+                  matInput
+                  [type]="hide ? 'password' : 'text'"
+                  autocomplete="off"
+                />
+                <mat-error
+                  *ngIf="
+                    formulario.controls['repPassword'].hasError('required') &&
+                    formulario.touched
+                  "
+                >
+                  Confirmar Senha é
+                  <strong style="letter-spacing: 1px">obrigatório</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="
+                    formulario.controls['repPassword'].hasError('minLength') &&
+                    formulario.touched
+                  "
+                >
+                  Senha deve conter no mínimo
+                  <strong style="letter-spacing: 1px">6 caracteres</strong>
+                </mat-error>
+              </mat-form-field>
+              <div
+                *ngIf="
+                  formulario.controls['repPassword'].hasError(
+                    'senhaMatching'
+                  ) && formulario.touched
+                "
+              >
+                <p>
+                  Senha não conferem, favor verificar
+                  <strong style="letter-spacing: 1px">6 caracteres</strong>
+                </p>
+              </div>
+            </div>
+            <!-- Terceira Linha  -->
+            <div class="line-div">
+              <mat-form-field class="input-form" appearance="outline">
+                <mat-label>Usuário Ativo</mat-label>
+                <mat-select class="select-form" formControlName="isActive">
+                  <mat-option value="yes">Ativo</mat-option>
+                  <mat-option value="no">Inativo</mat-option>
+                </mat-select>
+                <mat-error
+                  *ngIf="
+                    formulario.controls['isActive'].hasError('required') &&
+                    formulario.touched
+                  "
+                >
+                  Usuário ativo é
+                  <strong style="letter-spacing: 1px">obrigatório</strong>
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field
+                class="input-form second-field"
+                appearance="outline"
+              >
+                <mat-label>Tipo de Usuário</mat-label>
+                <mat-select class="select-form" formControlName="userType">
+                  <mat-option value="Admin">Administrador</mat-option>
+                  <mat-option value="User">Usuário</mat-option>
+                  <mat-option value="ReadOnly">Apenas leitura</mat-option>
+                </mat-select>
+                <mat-error
+                  *ngIf="
+                    formulario.controls['userType'].hasError('required') &&
+                    formulario.touched
+                  "
+                >
+                  Tipo de Usuário é
+                  <strong style="letter-spacing: 1px">obrigatório</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <ng-template
+            *ngIf="
+              formulario.controls['repPassword'].hasError('matchingPasswords')
+            "
+          >
+            <p style="color: red">Senhas não conferem, favor corrigir</p>
+          </ng-template>
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button
+            mat-raised-button
+            [disabled]="formulario.invalid"
+            (click)="onSubmit()"
+            class="btn-save"
+          >
+            {{ txtBtn }}
+          </button>
+          <button mat-raised-button (click)="btnVoltar()" class="btn-return">
+            Voltar
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </form>
+  </div>
+</main>

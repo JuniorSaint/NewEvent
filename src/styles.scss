@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+
+@font-face {
+  font-family: "SFText";
+  src: local("SFText"),
+    url(./assets/fonts/FontsFree-Net-SFProText-Regular.ttf) format("truetype");
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: "SFText", Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* *************** configuração da popup dialog ************* */

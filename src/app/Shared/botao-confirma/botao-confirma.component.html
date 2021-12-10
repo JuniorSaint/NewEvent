@@ -1,0 +1,21 @@
+<div id="main">
+  <div id="corpoDialogo">
+    <p mat-dialog-content>
+      {{ data.mensagem }}
+    </p>
+  </div>
+  <div c id="rodape">
+    <button id="btn-cancel" mat-raised-button mat-dialog-close="false">
+      Cancelar
+    </button>
+    <button
+      id="btn-confirm"
+      mat-raised-button
+      mat-dialog-close="true"
+      cdkFocusInitial
+    >
+      <span class="material-icons"> done </span>
+      {{ data.botao1 }}
+    </button>
+  </div>
+</div>

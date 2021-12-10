@@ -1,0 +1,51 @@
+@import '../../../Shared/style/mixins';
+@import '../../../Shared/style/button';
+@import '../../../Shared/style/reset';
+
+#main {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  #txt-search {
+    width: 250px;
+    height: 50px;
+  }
+
+  #content-div {
+    td {
+      margin: 10px 0px;
+    }
+    th {
+      background-color: black;
+      color: white;
+      font-size: 1em;
+      letter-spacing: 1px;
+      font-family: SFText;
+    }
+    #messageNotFound h2 {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      font-family: 'SFText';
+    }
+    #btn-hide {
+      padding: 0px 10px;
+      border-color: white;
+      letter-spacing: 1px;
+      font-size: 0.9em;
+      font-family: SFText;
+    }
+    #btn-detail {
+      padding: 0px 10px;
+      border-color: black;
+      letter-spacing: 1px;
+      font-size: 0.9em;
+      font-family: SFText;
+    }
+    width: 80%;
+    table {
+      width: 100%;
+    }
+  }
+}

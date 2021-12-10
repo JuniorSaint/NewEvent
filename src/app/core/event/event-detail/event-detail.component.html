@@ -1,0 +1,39 @@
+<div id="main-div">
+  <mat-card class="card">
+    <div id="header-div">
+      <mat-card id="header-card">{{ eventFind?.theme }}</mat-card>
+    </div>
+    <div id="image-div">
+      <img [src]="verifyImage(eventFind?.eventImage)" />
+    </div>
+    <mat-card-content>
+      <p><span>Local:</span> {{ eventFind?.local }}</p>
+      <p>
+        <span>Data e Hora:</span>
+        {{ eventFind?.eventDate | date: "dd/MM/yyyy" }} às
+        {{ eventFind?.eventTime }}
+      </p>
+      <p>
+        <span>Quantidade de pessoas:</span>
+        {{ eventFind?.peopleAmount }}
+      </p>
+      <p><span>Telefone:</span> {{ eventFind?.phone }}</p>
+      <p><span>E-mail:</span> {{ eventFind?.email }}</p>
+      <mat-divider></mat-divider>
+      <h2 *ngIf="eventFind.lots.length > 0">Lotes</h2>
+      <div *ngFor="let item of eventFind?.lots; async">
+        <span id="lot-list"></span>
+        <p><span>Lote:</span>{{ item?.lotName }}</p>
+        <p><span>Preco:</span>{{ item?.price }}</p>
+        <p><span>Quantidade:</span>{{ item?.amount }}</p>
+        <p><span>Data Inicial:</span>{{ item?.initialDate }}</p>
+        <p><span>Data Final:</span>{{ item?.endDate }}</p>
+        <mat-divider></mat-divider>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button (click)="editForm()" class="btn-edit">Editar</button>
+      <button (click)="delete(eventFind.id)" class="btn-delete">Deletar</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

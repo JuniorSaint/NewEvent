@@ -1,0 +1,45 @@
+<main>
+  <div id="container">
+    <div class="login-div">
+      <div class="logo"></div>
+      <div class="title">Eventos</div>
+      <div class="sub-title">Event Program</div>
+      <div class="fields">
+        <mat-form-field class="example-full-width">
+          <mat-label>Usuário</mat-label>
+          <input
+            matInput
+            autocomplete="off"
+            required
+            autofocus
+            formControlName="email"
+          />
+          <span class="material-icons" matSuffix> person </span>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>Senha</mat-label>
+
+          <input
+            matInput
+            [type]="hide ? 'password' : 'text'"
+            required
+            formControlName="password"
+          />
+
+          <button
+            style="font-size: 20px"
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <button class="signin-button" (click)="authentication()">Login</button>
+    </div>
+  </div>
+</main>

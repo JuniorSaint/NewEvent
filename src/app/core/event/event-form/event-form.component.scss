@@ -1,0 +1,52 @@
+@import "../../../Shared/style/mixins";
+@import "../../../Shared/style/button";
+@import "../../../Shared/style/reset";
+
+#main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+  width: 680px;
+  .input-form {
+    width: 250px;
+  }
+  #container {
+    form {
+      #card-theme {
+        width: 650px;
+        .line-div {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+        }
+        .footer-card {
+          background-color: #afafb6;
+        }
+      }
+      #card-lot {
+        margin-top: 10px;
+        width: 650px;
+        #content-card-lot {
+          margin-top: 5px;
+          #form-array-card {
+            margin-top: 10px;
+            .line-div-lot {
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+              .input-lot {
+                width: 100px;
+              }
+              #btn-array {
+                display: flex;
+                justify-content: space-between;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

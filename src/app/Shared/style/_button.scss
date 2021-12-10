@@ -1,0 +1,54 @@
+%base-btn {
+  padding: 0px 15px;
+  border-radius: 15px;
+  height: 35px;
+  cursor: pointer;
+  margin: 5px;
+  transition: 0.3s;
+  letter-spacing: 1px;
+  box-shadow: 3px 3px 8px #b1b1b1, -3px -3px 8px #ffffff;
+  font-size: 0.9rem;
+  border: none;
+  color: white;
+}
+
+%active-btn {
+  box-shadow: none;
+  color: black;
+}
+
+.btn-save {
+  @extend %base-btn;
+  background-color: #0b8ead;
+  &:active {
+    background: #00d5ff;
+    @extend %active-btn;
+  }
+}
+
+.btn-delete {
+  @extend %base-btn;
+  background-color: #ff4d00;
+  &:active {
+    background-color: #f08f34;
+    @extend %active-btn;
+  }
+}
+
+.btn-edit {
+  @extend %base-btn;
+  background-color: #1da88a;
+  &:active {
+    background: #2fdbb6;
+    @extend %active-btn;
+  }
+}
+
+.btn-return {
+  @extend %base-btn;
+  background-color: #ad8807;
+  &:active {
+    background-color: #fac716;
+    @extend %active-btn;
+  }
+}
