@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { BotaoConfirmaComponent } from 'src/app/Shared/botao-confirma/botao-confirma.component';
 
@@ -49,12 +49,12 @@ export class EventFormComponent implements OnInit {
       peopleAmount: [null, Validators.required],
       phone: [null, Validators.required],
       email: [null, [Validators.required, Validators.email]],
-      eventImage: [null, Validators.pattern('.*.(gif|jpe?g|bmp|png)$')],
+      eventImage: [''],
       lots: this.fb.array([]),
     });
 
     this.popularForm();
-    this.exibirCabecalhoBotao();
+    this.showHeaderButton();
   }
 
   //concat date and hour to send to BDo
@@ -80,8 +80,8 @@ export class EventFormComponent implements OnInit {
 
   save(formValue: IEvent): void {
     this.service.create(formValue).subscribe({
-      next: (dados) => {
-        (this.formUpdate = dados),
+      next: (data) => {
+        (this.formUpdate = data),
           this.snackBar.open('Formulário salvo com sucesso', '', {
             duration: 2000,
           }),
@@ -110,10 +110,11 @@ export class EventFormComponent implements OnInit {
   }
 
   // button return
-  btnVoltar() {
+  btnReturn() {
     this.router.navigate([`event`]);
   }
 
+  // function to populate
   popularForm(): void {
     if (this.urlAtiva !== 'new') {
       this.service.getByID(this.urlAtiva).subscribe({
@@ -141,27 +142,27 @@ export class EventFormComponent implements OnInit {
     });
   }
 
+  // load image
   onFileChange(ev: any): void {
-    const reader = new FileReader();
+    const READER = new FileReader();
 
-    reader.onload = (event: any) => (this.imagemURL = event.target.result);
+    READER.onload = (event: any) => (this.imagemURL = event.target.result);
 
     this.file = ev.target.files;
-    reader.readAsDataURL(this.file[0]);
+    READER.readAsDataURL(this.file[0]);
 
-    this.uploadImage();
+    this.upLoadImage();
   }
 
-  uploadImage() {
+  upLoadImage() {
     this.service.uploadImage(this.urlAtiva, this.file).subscribe({
       next: () => this.popularForm(),
       error: (erro) => console.error(erro),
-      complete: () => console.log('passei por aqui'),
     });
   }
 
   //button and title
-  exibirCabecalhoBotao(): void {
+  showHeaderButton(): void {
     if (this.urlAtiva !== 'new') {
       this.pageTitle = 'Editando o formulário';
       this.txtBtn = 'Atualizar';

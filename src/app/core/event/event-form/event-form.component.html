@@ -1,17 +1,16 @@
 <main id="main">
-  <div>
-    <form [formGroup]="formulario">
-      <mat-card id="card-theme">
-        <mat-card style="width: 93%; margin: 15px; margin-right: 10px">
-          <p style="letter-spacing: 1px; font-size: 1.5rem; margin: center">
-            {{ pageTitle }}
-          </p>
-        </mat-card>
+  <div id="container">
+    <div id="form-content">
+      <form [formGroup]="formulario">
+        <mat-card id="card-theme">
+          <mat-card style="width: 93%; margin: 15px; margin-right: 10px">
+            <p style="letter-spacing: 1px; font-size: 1.5rem; margin: center">
+              {{ pageTitle }}
+            </p>
+          </mat-card>
 
-        <mat-card-content>
-          <!-- Primeira Linha -->
-          <div class="line-div">
-            <mat-form-field class="input-form" appearance="outline">
+          <mat-card-content>
+            <mat-form-field class="input-form-long" appearance="outline">
               <mat-label>Tema da Palestra</mat-label>
               <input matInput formControlName="theme" autocomplete="off" />
               <mat-error
@@ -24,351 +23,357 @@
                 <strong style="letter-spacing: 1px">obrigatório</strong>
               </mat-error>
             </mat-form-field>
+            <!-- Primeira Linha -->
+            <div class="line-div">
+              <mat-form-field class="input-form" appearance="outline">
+                <mat-label>Local</mat-label>
+                <input matInput formControlName="local" autocomplete="off" />
+                <mat-error
+                  *ngIf="
+                    formulario.controls['local'].hasError('required') &&
+                    formulario.touched
+                  "
+                >
+                  Local é
+                  <strong style="letter-spacing: 1px">obrigatório</strong>
+                </mat-error>
+              </mat-form-field>
 
-            <mat-form-field class="input-form" appearance="outline">
-              <mat-label>Local</mat-label>
-              <input matInput formControlName="local" autocomplete="off" />
-              <mat-error
-                *ngIf="
-                  formulario.controls['local'].hasError('required') &&
-                  formulario.touched
-                "
+              <mat-form-field class="input-form" appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" autocomplete="off" />
+                <mat-error
+                  *ngIf="
+                    formulario.controls['email'].hasError('required') &&
+                    formulario.touched
+                  "
+                >
+                  e-mail é campo
+                  <strong style="letter-spacing: 1px">obrigatório</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="
+                    formulario.controls['email'].hasError('pattern') &&
+                    formulario.touched
+                  "
+                >
+                  e-mail com formato
+                  <strong style="letter-spacing: 1px">errado</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <!-- Segunda Linha  -->
+            <div class="line-div">
+              <mat-form-field class="input-form" appearance="outline">
+                <mat-label>Telefone</mat-label>
+                <input
+                  matInput
+                  type="tel"
+                  formControlName="phone"
+                  mask="(000) 0000-0000 || (000) 00000-0000"
+                  [showMaskTyped]="true"
+                  autocomplete="off"
+                />
+                <mat-error
+                  *ngIf="
+                    formulario.controls['phone'].hasError('required') &&
+                    formulario.touched
+                  "
+                >
+                  Telefone é campo
+                  <strong style="letter-spacing: 1px">obrigatório</strong>
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field
+                class="input-form"
+                appearance="outline"
+                *ngIf="urlAtiva !== 'new'"
               >
-                Local é
-                <strong style="letter-spacing: 1px">obrigatório</strong>
-              </mat-error>
-            </mat-form-field>
-          </div>
+                <mat-label>Imagem</mat-label>
+                <input
+                  matInput
+                  formControlName="eventImage"
+                  readonly
+                  (click)="file.click()"
+                />
 
-          <!-- Segunda Linha  -->
-          <div class="line-div">
-            <mat-form-field class="input-form" appearance="outline">
-              <mat-label>Telefone</mat-label>
+                <mat-error
+                  *ngIf="
+                    formulario.controls['eventImage'].hasError('pattern') &&
+                    formulario.touched
+                  "
+                >
+                  Falta extensão do nome da imagem ou extensão inválida
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <!-- Terceira Linha  -->
+            <div class="line-div">
+              <mat-form-field appearance="outline" class="input-form">
+                <mat-label>Data da Live</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="picker"
+                  formControlName="eventDate"
+                  autocomplete="off"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error
+                  *ngIf="
+                    formulario.controls['eventDate'].hasError('required') &&
+                    formulario.touched
+                  "
+                >
+                  Campo data é obrigatóriio
+                </mat-error>
+              </mat-form-field>
+
+              <div class="input-form">
+                <mat-form-field class="input-form-small" appearance="outline">
+                  <mat-label>Quantidade</mat-label>
+                  <input
+                    matInput
+                    formControlName="peopleAmount"
+                    type="number"
+                    autocomplete="off"
+                  />
+                  <mat-error
+                    *ngIf="
+                      formulario.controls['peopleAmount'].hasError(
+                        'required'
+                      ) && formulario.touched
+                    "
+                  >
+                    Quantidade é campo
+                    <strong style="letter-spacing: 1px">obrigatório</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="input-form-small">
+                  <mat-label>Horário da Live</mat-label>
+                  <input
+                    matInput
+                    type="time"
+                    placeholder=""
+                    formControlName="eventTime"
+                    #time
+                    autocomplete="off"
+                  />
+                  <mat-error
+                    *ngIf="
+                      formulario.controls['eventTime'].hasError('required') &&
+                      formulario.touched
+                    "
+                  >
+                    Campo hora é obrigatório
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <!-- input to add image -->
               <input
-                matInput
-                type="tel"
-                formControlName="phone"
-                mask="(000) 0000-0000 || (000) 00000-0000"
-                [showMaskTyped]="true"
-                autocomplete="off"
+                type="file"
+                #file
+                style="display: none"
+                (change)="onFileChange($event)"
               />
-              <mat-error
-                *ngIf="
-                  formulario.controls['phone'].hasError('required') &&
-                  formulario.touched
-                "
-              >
-                Telefone é campo
-                <strong style="letter-spacing: 1px">obrigatório</strong>
-              </mat-error>
-            </mat-form-field>
+            </div>
+          </mat-card-content>
 
-            <mat-form-field class="input-form" appearance="outline">
-              <mat-label>Email</mat-label>
-              <input matInput formControlName="email" autocomplete="off" />
-              <mat-error
-                *ngIf="
-                  formulario.controls['email'].hasError('required') &&
-                  formulario.touched
-                "
-              >
-                e-mail é campo
-                <strong style="letter-spacing: 1px">obrigatório</strong>
-              </mat-error>
-              <mat-error
-                *ngIf="
-                  formulario.controls['email'].hasError('pattern') &&
-                  formulario.touched
-                "
-              >
-                e-mail com formato
-                <strong style="letter-spacing: 1px">errado</strong>
-              </mat-error>
-            </mat-form-field>
-          </div>
+          <mat-card-actions class="footer-card" *ngIf="urlAtiva === 'new'">
+            <button mat-raised-button (click)="onSubmit()" class="btn-save">
+              {{ txtBtn }}
+            </button>
+            <button mat-raised-button (click)="btnReturn()" class="btn-return">
+              Voltar
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </form>
+      <!-- Form Lots -->
+      <br />
+      <img [src]="imagemURL" alt="" width="100px" (click)="file.click()" />
+      <br />
+      <!-- Form Lots -->
 
-          <!-- Terceira Linha  -->
-          <div class="line-div">
-            <mat-form-field class="input-form" appearance="outline">
-              <mat-label>Quantidade</mat-label>
-              <input
-                matInput
-                formControlName="peopleAmount"
-                type="number"
-                autocomplete="off"
-              />
-              <mat-error
-                *ngIf="
-                  formulario.controls['peopleAmount'].hasError('required') &&
-                  formulario.touched
-                "
-              >
-                Quantidade é campo
-                <strong style="letter-spacing: 1px">obrigatório</strong>
-              </mat-error>
-            </mat-form-field>
-            <!-- input to add image -->
-            <input
-              type="file"
-              #file
-              style="display: none"
-              (change)="onFileChange($event)"
-            />
-
-            <mat-form-field
-              class="input-form"
-              appearance="outline"
-              (click)="file.click()"
+      <mat-card id="card-lot" *ngIf="urlAtiva !== 'new'">
+        <mat-card style="width: 93%; margin: 15px; margin-right: 10px">
+          <p style="letter-spacing: 1px; font-size: 1.5rem; margin: center">
+            Lotes
+          </p>
+        </mat-card>
+        <mat-card-content>
+          <div [formGroup]="formulario">
+            <div
+              formArrayName="lots"
+              *ngFor="let forLot of lotFormControl.controls; index as i"
             >
-              <mat-label>click, selecione imagem</mat-label>
-              <input matInput formControlName="eventImage" autocomplete="off" />
+              <div [formGroupName]="i" indexForm="i">
+                <!-- Primeira Linha -->
+                <div class="line-div-lot">
+                  <mat-form-field class="input-lot" appearance="outline">
+                    <mat-label>Lote</mat-label>
+                    <input
+                      matInput
+                      formControlName="lotName"
+                      autocomplete="off"
+                    />
+                    <mat-error
+                      *ngIf="
+                        lotFormControl.get(i + '.lotName')?.errors &&
+                        lotFormControl.get(i + '.lotName')?.touched
+                      "
+                    >
+                      campo
+                      <strong style="letter-spacing: 1px">obrigatório</strong>
+                    </mat-error>
+                  </mat-form-field>
 
-              <mat-error
-                *ngIf="
-                  formulario.controls['eventImage'].hasError('pattern') &&
-                  formulario.touched
-                "
-              >
-                Falta extensão do nome da imagem ou extensão inválida
-              </mat-error>
-            </mat-form-field>
-          </div>
+                  <mat-form-field class="input-lot" appearance="outline">
+                    <mat-label>Preço</mat-label>
+                    <input
+                      matInput
+                      formControlName="price"
+                      autocomplete="off"
+                      currencyMask
+                    />
+                    <mat-error
+                      *ngIf="
+                        lotFormControl.get(i + '.price')?.errors &&
+                        lotFormControl.get(i + '.price')?.touched
+                      "
+                    >
+                      campo
+                      <strong style="letter-spacing: 1px">obrigatório</strong>
+                    </mat-error>
+                  </mat-form-field>
 
-          <!-- Quarta Linha  -->
-          <div class="line-div">
-            <mat-form-field appearance="outline" class="input-form">
-              <mat-label>Data da Live</mat-label>
-              <input
-                matInput
-                [matDatepicker]="picker"
-                formControlName="eventDate"
-                autocomplete="off"
-              />
-              <mat-datepicker-toggle
-                matSuffix
-                [for]="picker"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-              <mat-error
-                *ngIf="
-                  formulario.controls['eventDate'].hasError('required') &&
-                  formulario.touched
-                "
-              >
-                Campo data é obrigatóriio
-              </mat-error>
-            </mat-form-field>
+                  <mat-form-field class="input-lot" appearance="outline">
+                    <mat-label>Quantidade</mat-label>
+                    <input
+                      matInput
+                      type="number"
+                      formControlName="amount"
+                      autocomplete="off"
+                    />
+                    <mat-error
+                      *ngIf="
+                        lotFormControl.get(i + '.amount')?.errors &&
+                        lotFormControl.get(i + '.amount')?.touched
+                      "
+                    >
+                      campo
+                      <strong style="letter-spacing: 1px">obrigatório</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
 
-            <mat-form-field appearance="outline" class="input-form">
-              <mat-label>Horário da Live</mat-label>
-              <input
-                matInput
-                type="time"
-                placeholder=""
-                formControlName="eventTime"
-                #time
-                autocomplete="off"
-              />
-              <mat-error
-                *ngIf="
-                  formulario.controls['eventTime'].hasError('required') &&
-                  formulario.touched
-                "
-              >
-                Campo hora é obrigatório
-              </mat-error>
-            </mat-form-field>
+                <!-- Second Line  -->
+                <div class="line-div-lot">
+                  <mat-form-field appearance="outline" class="input-lot">
+                    <mat-label>Data Inicial</mat-label>
+                    <input
+                      matInput
+                      [matDatepicker]="datepicker"
+                      formControlName="initialDate"
+                      autocomplete="off"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="datepicker"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #datepicker>
+                      <mat-datepicker-actions>
+                        <button mat-button matDatepickerCancel>Cancel</button>
+                        <button
+                          mat-raised-button
+                          color="primary"
+                          matDatepickerApply
+                        >
+                          Apply
+                        </button>
+                      </mat-datepicker-actions>
+                    </mat-datepicker>
+                    <mat-error
+                      *ngIf="
+                        lotFormControl.get(i + '.initialDate')?.errors &&
+                        lotFormControl.get(i + '.initialDate')?.touched
+                      "
+                    >
+                      campo
+                      <strong style="letter-spacing: 1px">obrigatório</strong>
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="input-lot">
+                    <mat-label>Data Final</mat-label>
+                    <input
+                      matInput
+                      [matDatepicker]="datepickers"
+                      formControlName="endDate"
+                      autocomplete="off"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="datepickers"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #datepickers>
+                      <mat-datepicker-actions>
+                        <button mat-button matDatepickerCancel>Cancel</button>
+                        <button
+                          mat-raised-button
+                          color="primary"
+                          matDatepickerApply
+                        >
+                          Apply
+                        </button>
+                      </mat-datepicker-actions>
+                    </mat-datepicker>
+                    <mat-error
+                      *ngIf="
+                        lotFormControl.get(i + '.endDate')?.errors &&
+                        lotFormControl.get(i + '.endDate')?.touched
+                      "
+                    >
+                      campo
+                      <strong style="letter-spacing: 1px">obrigatório</strong>
+                    </mat-error>
+                  </mat-form-field>
+
+                  <button
+                    style="margin-left: 10px"
+                    (click)="removeLot(i)"
+                    class="btn-delete input-lot"
+                  >
+                    Apagar
+                  </button>
+                </div>
+              </div>
+              <mat-divider></mat-divider>
+            </div>
+            <div>
+              <button (click)="includeLot()" class="btn-edit">
+                Adicionar lote
+              </button>
+            </div>
           </div>
         </mat-card-content>
-
-        <mat-card-actions class="footer-card" *ngIf="urlAtiva === 'new'">
-          <button mat-raised-button (click)="onSubmit()" class="btn-save">
+        <mat-card-actions class="footer-card">
+          <button mat-raised-button (click)="update()" class="btn-save">
             {{ txtBtn }}
           </button>
-          <button mat-raised-button (click)="btnVoltar()" class="btn-return">
+          <button mat-raised-button (click)="btnReturn()" class="btn-return">
             Voltar
           </button>
         </mat-card-actions>
       </mat-card>
-    </form>
-    <!-- Form Lots -->
-    <br />
-    <img [src]="imagemURL" alt="" width="100px" (click)="file.click()" />
-    <br />
-    <!-- Form Lots -->
-
-    <mat-card id="card-lot" *ngIf="urlAtiva !== 'new'">
-      <mat-card style="width: 93%; margin: 15px; margin-right: 10px">
-        <p style="letter-spacing: 1px; font-size: 1.5rem; margin: center">
-          Lotes
-        </p>
-      </mat-card>
-      <mat-card-content id="content-card-lot">
-        <div [formGroup]="formulario">
-          <mat-card
-            id="form-array-card"
-            formArrayName="lots"
-            *ngFor="let forLot of lotFormControl.controls; index as i"
-          >
-            <div [formGroupName]="i" indexForm="i">
-              <!-- Primeira Linha -->
-              <div class="line-div-lot">
-                <mat-form-field class="input-lot" appearance="outline">
-                  <mat-label>Lote</mat-label>
-                  <input
-                    matInput
-                    formControlName="lotName"
-                    autocomplete="off"
-                  />
-                  <mat-error
-                    *ngIf="
-                      lotFormControl.get(i + '.lotName')?.errors &&
-                      lotFormControl.get(i + '.lotName')?.touched
-                    "
-                  >
-                    campo
-                    <strong style="letter-spacing: 1px">obrigatório</strong>
-                  </mat-error>
-                </mat-form-field>
-
-                <mat-form-field class="input-lot" appearance="outline">
-                  <mat-label>Preço</mat-label>
-                  <input
-                    matInput
-                    formControlName="price"
-                    autocomplete="off"
-                    currencyMask
-                  />
-                  <mat-error
-                    *ngIf="
-                      lotFormControl.get(i + '.price')?.errors &&
-                      lotFormControl.get(i + '.price')?.touched
-                    "
-                  >
-                    campo
-                    <strong style="letter-spacing: 1px">obrigatório</strong>
-                  </mat-error>
-                </mat-form-field>
-
-                <mat-form-field class="input-lot" appearance="outline">
-                  <mat-label>Quantidade</mat-label>
-                  <input
-                    matInput
-                    type="number"
-                    formControlName="amount"
-                    autocomplete="off"
-                  />
-                  <mat-error
-                    *ngIf="
-                      lotFormControl.get(i + '.amount')?.errors &&
-                      lotFormControl.get(i + '.amount')?.touched
-                    "
-                  >
-                    campo
-                    <strong style="letter-spacing: 1px">obrigatório</strong>
-                  </mat-error>
-                </mat-form-field>
-              </div>
-
-              <!-- Second Line  -->
-              <div class="line-div-lot">
-                <mat-form-field appearance="outline" class="input-lot">
-                  <mat-label>Data Inicial</mat-label>
-                  <input
-                    matInput
-                    [matDatepicker]="datepicker"
-                    formControlName="initialDate"
-                    autocomplete="off"
-                  />
-                  <mat-datepicker-toggle
-                    matSuffix
-                    [for]="datepicker"
-                  ></mat-datepicker-toggle>
-                  <mat-datepicker #datepicker>
-                    <mat-datepicker-actions>
-                      <button mat-button matDatepickerCancel>Cancel</button>
-                      <button
-                        mat-raised-button
-                        color="primary"
-                        matDatepickerApply
-                      >
-                        Apply
-                      </button>
-                    </mat-datepicker-actions>
-                  </mat-datepicker>
-                  <mat-error
-                    *ngIf="
-                      lotFormControl.get(i + '.initialDate')?.errors &&
-                      lotFormControl.get(i + '.initialDate')?.touched
-                    "
-                  >
-                    campo
-                    <strong style="letter-spacing: 1px">obrigatório</strong>
-                  </mat-error>
-                </mat-form-field>
-
-                <mat-form-field appearance="outline" class="input-lot">
-                  <mat-label>Data Final</mat-label>
-                  <input
-                    matInput
-                    [matDatepicker]="datepickers"
-                    formControlName="endDate"
-                    autocomplete="off"
-                  />
-                  <mat-datepicker-toggle
-                    matSuffix
-                    [for]="datepickers"
-                  ></mat-datepicker-toggle>
-                  <mat-datepicker #datepickers>
-                    <mat-datepicker-actions>
-                      <button mat-button matDatepickerCancel>Cancel</button>
-                      <button
-                        mat-raised-button
-                        color="primary"
-                        matDatepickerApply
-                      >
-                        Apply
-                      </button>
-                    </mat-datepicker-actions>
-                  </mat-datepicker>
-                  <mat-error
-                    *ngIf="
-                      lotFormControl.get(i + '.endDate')?.errors &&
-                      lotFormControl.get(i + '.endDate')?.touched
-                    "
-                  >
-                    campo
-                    <strong style="letter-spacing: 1px">obrigatório</strong>
-                  </mat-error>
-                </mat-form-field>
-
-                <button
-                  style="margin-left: 10px"
-                  (click)="removeLot(i)"
-                  class="btn-delete input-lot"
-                >
-                  Apagar
-                </button>
-              </div>
-            </div>
-          </mat-card>
-          <div>
-            <button (click)="includeLot()" class="btn-edit">
-              Adicionar lote
-            </button>
-          </div>
-
-          <mat-card-actions class="footer-card">
-            <button mat-raised-button (click)="update()" class="btn-save">
-              {{ txtBtn }}
-            </button>
-            <button mat-raised-button (click)="btnVoltar()" class="btn-return">
-              Voltar
-            </button>
-          </mat-card-actions>
-        </div>
-      </mat-card-content>
-    </mat-card>
+    </div>
   </div>
 </main>
 <br /><br />

@@ -1,5 +1,3 @@
-import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   Component,
   EventEmitter,
@@ -9,12 +7,14 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { BotaoConfirmaComponent } from 'src/app/Shared/botao-confirma/botao-confirma.component';
 import { SubSink } from 'subsink2';
 
-import { ISpeaker } from '../shared/ispeaker.interface';
 import { SpeakerService } from '../shared/speaker.service';
-import { MatDialog } from '@angular/material/dialog';
+import { ISpeaker } from './../shared/ispeaker.interface';
 
 @Component({
   selector: 'app-speaker-detail',
@@ -22,8 +22,8 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./speaker-detail.component.scss'],
 })
 export class SpeakerDetailComponent implements OnInit, OnDestroy, OnChanges {
-  speakerFind!: ISpeaker;
-  @Input() id!: string;
+  speakerFind: ISpeaker;
+  @Input() id: string;
   @Output() resetList = new EventEmitter();
   private subs = new SubSink();
 
@@ -39,15 +39,15 @@ export class SpeakerDetailComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit(): void {
-    this.subs.sink = this.service.getByID(this.id).subscribe(
-      (data) => (this.speakerFind = data),
-      (erro) => console.error(erro),
-      () => console.log(this.speakerFind)
-    );
+    this.subs.sink = this.service.getByID(this.id).subscribe({
+      next: (data) => (this.speakerFind = data),
+      error: (erro) => console.error(erro),
+      complete: () => console.log(this.speakerFind),
+    });
   }
 
   delete(id: any): void {
-    const dialogRef = this.dialog.open(BotaoConfirmaComponent, {
+    const DIALOG_REF = this.dialog.open(BotaoConfirmaComponent, {
       panelClass: 'myapp-no-padding-dialog',
       data: {
         mensagem: `Deseja realmente exluir ?`,
@@ -55,16 +55,17 @@ export class SpeakerDetailComponent implements OnInit, OnDestroy, OnChanges {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    DIALOG_REF.afterClosed().subscribe((result) => {
       if (result == 'true') {
-        this.service.delete(id).subscribe(
-          () =>
+        this.service.delete(id).subscribe({
+          next: () =>
             this.snackBar.open('Deletado com sucesso', 'OK', {
               duration: 2000,
             }),
-          (error) => this.snackBar.open(`${error}`, '', { duration: 2000 }),
-          () => this.resetList.emit()
-        );
+          error: (error) =>
+            this.snackBar.open(`${error}`, '', { duration: 2000 }),
+          complete: () => this.resetList.emit(),
+        });
       }
     });
   }

@@ -2,7 +2,7 @@
   <div id="container">
     <div id="form-content">
       <form [formGroup]="formulario">
-        <mat-card>
+        <mat-card id="card-speaker">
           <mat-card style="width: 93%; margin: 15px; margin-right: 10px">
             <p style="letter-spacing: 1px; font-size: 1.5rem; margin: center">
               {{ pageTitle }}
@@ -11,59 +11,67 @@
 
           <mat-card-content>
             <div class="card-div">
+              <mat-form-field class="input-form-long" appearance="outline">
+                <mat-label>Palestrante</mat-label>
+                <input
+                  matInput
+                  formControlName="speakerName"
+                  autocomplete="off"
+                />
+                <mat-error
+                  *ngIf="
+                    formulario.controls['speakerName'].hasError('required') &&
+                    formulario.touched
+                  "
+                >
+                  Nome do palestrante é campo
+                  <strong style="letter-spacing: 1px">obrigatório</strong>
+                </mat-error>
+              </mat-form-field>
+
               <!-- Primeira Linha -->
               <div class="line-div">
-                <mat-form-field class="input-form" appearance="outline">
-                  <mat-label>Palestrante</mat-label>
+                <mat-form-field appearance="outline" class="input-form-middle">
+                  <mat-label>Data de Nascimento</mat-label>
                   <input
                     matInput
-                    formControlName="speakerName"
+                    [matDatepicker]="picker"
+                    formControlName="birthday"
                     autocomplete="off"
+                  />
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="picker"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field
+                  class="input-form-middle"
+                  appearance="outline"
+                  *ngIf="urlAtiva !== 'new'"
+                >
+                  <mat-label>Imagem</mat-label>
+                  <input
+                    matInput
+                    formControlName="speakerImage"
+                    readonly
+                    (click)="file.click()"
                   />
                   <mat-error
                     *ngIf="
-                      formulario.controls['speakerName'].hasError('required') &&
+                      formulario.controls['speakerImage'].hasError('pattern') &&
                       formulario.touched
                     "
                   >
-                    Nome do palestrante é campo
-                    <strong style="letter-spacing: 1px">obrigatório</strong>
+                    Nome da imagem incompleta ou extensão inválida
                   </mat-error>
                 </mat-form-field>
-
-                <div class="line-div">
-                  <mat-form-field class="input-form" appearance="outline">
-                    <mat-label>Imagem</mat-label>
-                    <input
-                      matInput
-                      formControlName="speakerImage"
-                      autocomplete="off"
-                    />
-                    <mat-error
-                      *ngIf="
-                        formulario.controls['speakerImage'].hasError(
-                          'pattern'
-                        ) && formulario.touched
-                      "
-                    >
-                      Nome da imagem incompleta ou extensão inválida
-                    </mat-error>
-                    <mat-error
-                      *ngIf="
-                        formulario.controls['speakerImage'].hasError(
-                          'required'
-                        ) && formulario.touched
-                      "
-                    >
-                      Nome da Imagem é campo obrigatório
-                    </mat-error>
-                  </mat-form-field>
-                </div>
               </div>
 
               <!-- Segunda Linha  -->
               <div class="line-div">
-                <mat-form-field class="input-form" appearance="outline">
+                <mat-form-field class="input-form-middle" appearance="outline">
                   <mat-label>Telefone</mat-label>
                   <input
                     type="tel"
@@ -85,7 +93,7 @@
                 </mat-form-field>
 
                 <mat-form-field
-                  class="input-form second-field"
+                  class="input-form-middle second-field"
                   appearance="outline"
                 >
                   <mat-label>Email</mat-label>
@@ -116,10 +124,7 @@
 
               <!-- Terceira Linha  -->
               <div class="line-div">
-                <mat-form-field
-                  class="input-form third-field"
-                  appearance="outline"
-                >
+                <mat-form-field class="input-form-long" appearance="outline">
                   <mat-label>Currículo Resumido</mat-label>
                   <textarea
                     matInput
@@ -130,17 +135,121 @@
               </div>
             </div>
           </mat-card-content>
-
-          <mat-card-actions>
-            <button mat-raised-button (click)="onSubmit()" class="btn-save">
+          <!-- input to add image -->
+          <input
+            type="file"
+            #file
+            style="display: none"
+            (change)="onFileChange($event)"
+          />
+          <mat-card-actions *ngIf="urlAtiva === 'new'">
+            <button
+              mat-raised-button
+              *ngIf="!formulario.invalid"
+              (click)="onSubmit()"
+              class="btn-save"
+            >
               {{ txtBtn }}
             </button>
-            <button mat-raised-button (click)="btnVoltar()" class="btn-return">
+            <button mat-raised-button (click)="btnReturn()" class="btn-return">
               Voltar
             </button>
           </mat-card-actions>
         </mat-card>
       </form>
+      <!-- Form Lots -->
+      <br />
+      <div *ngIf="urlAtiva !== 'new'">
+        <img [src]="imageUrl" alt="" width="100px" (click)="file.click()" />
+      </div>
+      <br />
+      <!-- Form Lots -->
+
+      <mat-card id="card-lot" *ngIf="urlAtiva !== 'new'">
+        <mat-card style="width: 93%; margin: 15px; margin-right: 10px">
+          <p style="letter-spacing: 1px; font-size: 1.5rem; margin: center">
+            Lotes
+          </p>
+        </mat-card>
+        <mat-card-content>
+          <div [formGroup]="formulario">
+            <div
+              formArrayName="socialMedias"
+              *ngFor="
+                let forMedia of socialMediaFormControl.controls;
+                index as i
+              "
+            >
+              <div [formGroupName]="i">
+                <!-- Primeira Linha -->
+                <div class="line-div">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Rede Social</mat-label>
+                    <select matNativeControl formControlName="socialMedia">
+                      <option *ngFor="let item of listSocialMedia$">
+                        {{ item.socialMediaName }}
+                      </option>
+                    </select>
+                    <mat-error
+                      *ngIf="
+                        socialMediaFormControl.get(i + '.socialMedia')
+                          ?.errors &&
+                        socialMediaFormControl.get(i + '.socialMedia')?.touched
+                      "
+                    >
+                      campo
+                      <strong style="letter-spacing: 1px">obrigatório</strong>
+                    </mat-error>
+                  </mat-form-field>
+
+                  <button
+                    class="btn-remove"
+                    (click)="removeSocialMedia(i)"
+                    class="btn-delete input-lot"
+                  >
+                    Apagar
+                  </button>
+                </div>
+                <mat-form-field style="width: 100%" appearance="outline">
+                  <mat-label>Endereço da Rede Social</mat-label>
+                  <input
+                    matInput
+                    formControlName="urlSocialMedia"
+                    autocomplete="off"
+                    required
+                  />
+                  <mat-error
+                    *ngIf="
+                      socialMediaFormControl.get(i + '.urlSocialMedia')
+                        ?.errors &&
+                      socialMediaFormControl.get(i + '.urlSocialMedia')?.touched
+                    "
+                  >
+                    campo
+                    <strong style="letter-spacing: 1px">obrigatório</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <mat-divider></mat-divider>
+            </div>
+            <div>
+              <button (click)="includeSocialMedia()" class="btn-edit">
+                Adicionar lote
+              </button>
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions class="footer-card">
+          <button mat-raised-button (click)="update()" class="btn-save">
+            {{ txtBtn }}
+          </button>
+          <button mat-raised-button (click)="btnReturn()" class="btn-return">
+            Voltar
+          </button>
+        </mat-card-actions>
+      </mat-card>
     </div>
   </div>
 </main>
+{{ formulario.value | json }}

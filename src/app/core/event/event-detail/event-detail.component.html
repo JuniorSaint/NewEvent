@@ -20,14 +20,23 @@
       <p><span>Telefone:</span> {{ eventFind?.phone }}</p>
       <p><span>E-mail:</span> {{ eventFind?.email }}</p>
       <mat-divider></mat-divider>
-      <h2 *ngIf="eventFind.lots.length > 0">Lotes</h2>
-      <div *ngFor="let item of eventFind?.lots; async">
+      <mat-card *ngIf="eventFind.lots.length > 0" id="header-card">
+        Lote(s)</mat-card
+      >
+
+      <div *ngFor="let item of eventFind?.lots; let i; as: index; async">
         <span id="lot-list"></span>
-        <p><span>Lote:</span>{{ item?.lotName }}</p>
-        <p><span>Preco:</span>{{ item?.price }}</p>
-        <p><span>Quantidade:</span>{{ item?.amount }}</p>
-        <p><span>Data Inicial:</span>{{ item?.initialDate }}</p>
-        <p><span>Data Final:</span>{{ item?.endDate }}</p>
+        <p><span>Lote:</span> &nbsp;{{ item?.lotName }}</p>
+        <p><span>Preco:</span> &nbsp;{{ item?.price | currency: "BRL" }}</p>
+        <p><span>Lotação:</span> &nbsp;{{ item?.amount }} pessoas</p>
+        <p>
+          <span>Data Inicial:</span> &nbsp;{{
+            item?.initialDate | date: "d/M/yyyy"
+          }}
+        </p>
+        <p>
+          <span>Data Final:</span> &nbsp;{{ item?.endDate | date: "d/M/yyyy" }}
+        </p>
         <mat-divider></mat-divider>
       </div>
     </mat-card-content>

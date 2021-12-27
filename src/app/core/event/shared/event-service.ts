@@ -21,13 +21,13 @@ export class EventService extends CrudServico<IEvent> {
   }
 
   uploadImage(eventId: string, file: File): Observable<Event> {
-    const fileToUpload = file[0] as File;
-    const formData = new FormData();
-    formData.append('file', fileToUpload);
+    const FILE_TO_UPLOAD = file[0] as File;
+    const FORM_DATA = new FormData();
+    FORM_DATA.append('file', FILE_TO_UPLOAD);
 
     return this.http.post<Event>(
       `${this.EndUrl}/updalod-image/${eventId}`,
-      formData
+      FORM_DATA
     );
   }
 }

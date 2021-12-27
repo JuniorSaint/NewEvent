@@ -55,9 +55,7 @@ export class EventListComponent implements OnInit, OnDestroy {
           distinctUntilChanged(),
           tap((resp) => (this.search = resp))
         )
-        .subscribe(() => {
-          this.loadPage();
-        });
+        .subscribe(() => this.loadPage());
   }
 
   //seek the data with filter word

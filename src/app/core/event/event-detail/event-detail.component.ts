@@ -53,7 +53,7 @@ export class EventDetailComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   delete(id: any): void {
-    const dialogRef = this.dialog.open(BotaoConfirmaComponent, {
+    const DIALOG_REF = this.dialog.open(BotaoConfirmaComponent, {
       panelClass: 'myapp-no-padding-dialog',
       data: {
         mensagem: `Deseja realmente exluir?`,
@@ -61,7 +61,7 @@ export class EventDetailComponent implements OnInit, OnDestroy, OnChanges {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    DIALOG_REF.afterClosed().subscribe((result) => {
       if (result == 'true') {
         this.service.delete(id).subscribe({
           next: () =>

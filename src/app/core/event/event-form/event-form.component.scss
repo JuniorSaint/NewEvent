@@ -1,48 +1,62 @@
-@import "../../../Shared/style/mixins";
-@import "../../../Shared/style/button";
-@import "../../../Shared/style/reset";
+@use "../../../Shared/style/mixins";
+@use "../../../Shared/style/button";
+@use "../../../Shared/style/reset";
 
 #main {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
-  align-items: center;
+  align-content: center;
   margin-top: 50px;
-  width: 680px;
-  .input-form {
-    width: 250px;
+
+  .input-form-small {
+    width: 50%;
+    @include mixins.mobile {
+      width: 100%;
+    }
   }
+
+  .input-form {
+    width: 370px;
+
+    @include mixins.mobile {
+      width: 100%;
+    }
+  }
+
+  .input-form-long {
+    width: 100%;
+  }
+
+  .input-lot {
+    width: 230px;
+    @include mixins.mobile {
+      width: 100%;
+    }
+  }
+
+  #small-div {
+    width: 370px;
+  }
+
+  .line-div-lot {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
   #container {
-    form {
-      #card-theme {
-        width: 650px;
-        .line-div {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: space-between;
-        }
-        .footer-card {
-          background-color: #afafb6;
-        }
-      }
-      #card-lot {
-        margin-top: 10px;
-        width: 650px;
-        #content-card-lot {
-          margin-top: 5px;
-          #form-array-card {
-            margin-top: 10px;
-            .line-div-lot {
+    #form-content {
+      form {
+        #card-theme {
+          .line-div {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+
+            @include mixins.mobile {
               display: flex;
-              flex-direction: row;
-              justify-content: space-between;
-              .input-lot {
-                width: 100px;
-              }
-              #btn-array {
-                display: flex;
-                justify-content: space-between;
-              }
+              flex-wrap: wrap;
             }
           }
         }

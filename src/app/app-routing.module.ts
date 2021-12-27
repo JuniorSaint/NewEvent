@@ -20,13 +20,7 @@ const routes: Routes = [
         (mod) => mod.SpeakerModule
       ),
   },
-  {
-    path: 'socialMedia',
-    loadChildren: () =>
-      import('./core/social-media/shared/social-media.module').then(
-        (mod) => mod.SocialMediaModule
-      ),
-  },
+
   // { path: 'lot', loadChildren: () => import('./core/event/lot/shared/lot.module').then(mod => mod.LotModule) },
 
   { path: 'login', component: LoginComponent },

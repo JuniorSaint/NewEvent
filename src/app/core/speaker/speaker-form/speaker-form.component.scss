@@ -1,34 +1,44 @@
-@import '../../../Shared/style/mixins';
-@import '../../../Shared/style/button';
-@import '../../../Shared/style/reset';
+@use "../../../Shared/style/mixins";
+@use "../../../Shared/style/button";
+@use "../../../Shared/style/reset";
 
 #main {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-content: center;
-  margin-top: 50px;
+  margin: 50px 0;
   .line-div {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-between;
   }
-  .input-form {
+  .input-form-middle {
     width: 250px;
-  }
-  .second-field {
-    margin-left: 15px;
+
+    @include mixins.mobile {
+      width: 100%;
+    }
   }
 
-  .third-field {
+  .input-form-long {
     width: 100%;
+  }
+
+  .btn-remove {
+    width: 200px;
+  }
+
+  .second-field {
+    margin-left: 15px;
+
+    @include mixins.mobile {
+      margin-left: 0;
+    }
   }
 
   #container {
     display: flex;
-
-    #profile-div {
-    }
 
     #form-content {
       #header-card {

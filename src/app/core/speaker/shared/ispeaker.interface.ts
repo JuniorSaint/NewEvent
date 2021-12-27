@@ -9,7 +9,8 @@ export interface ISpeaker extends IInterfacePadrao {
   speakerImage: string;
   speakerPhone: string;
   speakerEmail: string;
-  socialMedia: ISocialMedia[];
+  birthday: Date;
+  socialMedias: ISocialMedia[];
   speakerEvent: IEvent[];
   age: number;
   updatedAt?: Date;
