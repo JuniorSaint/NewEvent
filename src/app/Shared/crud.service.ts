@@ -12,7 +12,7 @@ import { PaginatedResult } from './pagination';
 })
 export abstract class CrudServico<T extends IInterfacePadrao> {
   http: HttpClient;
-  URL!: string;
+  URL: string;
 
   constructor(@Inject(String) API: string, injector: Injector) {
     this.http = injector.get(HttpClient);

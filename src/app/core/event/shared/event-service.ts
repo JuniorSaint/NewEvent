@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { Observable, ObservableInput } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError, retry, take } from 'rxjs/operators';
 import { CrudServico } from 'src/app/Shared/crud.service';
 
@@ -20,12 +20,12 @@ export class EventService extends CrudServico<IEvent> {
       .pipe(retry(5), take(1), catchError(this.handleError));
   }
 
-  uploadImage(eventId: string, file: File): Observable<Event> {
+  uploadImage(eventId: string, file: File): Observable<IEvent> {
     const FILE_TO_UPLOAD = file[0] as File;
     const FORM_DATA = new FormData();
     FORM_DATA.append('file', FILE_TO_UPLOAD);
 
-    return this.http.post<Event>(
+    return this.http.post<IEvent>(
       `${this.EndUrl}/updalod-image/${eventId}`,
       FORM_DATA
     );

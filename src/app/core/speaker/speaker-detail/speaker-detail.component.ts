@@ -27,6 +27,8 @@ export class SpeakerDetailComponent implements OnInit, OnDestroy, OnChanges {
   @Output() resetList = new EventEmitter();
   private subs = new SubSink();
 
+  private readonly endServer = 'https://localhost:7217/resources/images/';
+
   constructor(
     private service: SpeakerService,
     private snackBar: MatSnackBar,
@@ -68,6 +70,15 @@ export class SpeakerDetailComponent implements OnInit, OnDestroy, OnChanges {
         });
       }
     });
+  }
+
+  // verify if there is image name
+  public verifyImage(imgUrl: string): string {
+    if (imgUrl !== null && imgUrl !== undefined) {
+      return `${this.endServer}${imgUrl}`;
+    } else {
+      return 'assets/img/no-picture.png';
+    }
   }
 
   editForm() {

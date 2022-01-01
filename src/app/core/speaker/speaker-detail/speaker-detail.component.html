@@ -4,7 +4,7 @@
       <mat-card id="header-card">{{ speakerFind?.speakerName }}</mat-card>
     </div>
     <div id="image-div">
-      <img src="/assets/img/{{ speakerFind?.speakerImage }}" />
+      <img [src]="verifyImage(speakerFind?.speakerImage)" />
     </div>
     <mat-card-content>
       <p><span>Telefone:</span> {{ speakerFind?.speakerPhone }}</p>
