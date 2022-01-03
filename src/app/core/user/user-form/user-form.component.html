@@ -31,10 +31,14 @@
                 appearance="outline"
               >
                 <mat-label>Email do Usuário</mat-label>
-                <input matInput formControlName="email" autocomplete="off" />
+                <input
+                  matInput
+                  formControlName="userEmail"
+                  autocomplete="off"
+                />
                 <mat-error
                   *ngIf="
-                    formulario.controls['email'].hasError('required') &&
+                    formulario.controls['userEmail'].hasError('required') &&
                     formulario.touched
                   "
                 >
@@ -43,7 +47,7 @@
                 </mat-error>
                 <mat-error
                   *ngIf="
-                    formulario.controls['email'].hasError('pattern') &&
+                    formulario.controls['userEmail'].hasError('pattern') &&
                     formulario.touched
                   "
                 >
@@ -161,8 +165,8 @@
               <mat-form-field class="input-form" appearance="outline">
                 <mat-label>Usuário Ativo</mat-label>
                 <mat-select class="select-form" formControlName="isActive">
-                  <mat-option value="yes">Ativo</mat-option>
-                  <mat-option value="no">Inativo</mat-option>
+                  <mat-option [value]="true">Ativo</mat-option>
+                  <mat-option [value]="false">Inativo</mat-option>
                 </mat-select>
                 <mat-error
                   *ngIf="

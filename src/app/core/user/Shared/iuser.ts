@@ -3,10 +3,10 @@ import { IInterfacePadrao } from 'src/app/Shared/iinterface.stander';
 export interface IUser extends IInterfacePadrao {
   id?: string;
   userName: string;
-  UserEmail: string;
+  userEmail: string;
   password: string;
   repPassword: string;
-  isActive: string;
+  isActive: boolean;
   userType: string;
   token?: string;
   userImage: string;

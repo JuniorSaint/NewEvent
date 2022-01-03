@@ -16,6 +16,17 @@
   z-index: 1;
 }
 
+#toolbar-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#log-div {
+  display: flex;
+  flex-direction: row;
+}
+
 .hidden {
   display: none;
 }

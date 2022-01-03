@@ -17,22 +17,30 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary" *ngIf="showMenu()">
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async"
-      >
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-      </button>
+    <mat-toolbar id="toolbar-div" color="primary" *ngIf="showMenu()">
       <div>
-        <button mat-flat-button routerLink="/event">EVENTO</button>
-        <button mat-flat-button routerLink="/speaker">PALESTRANTE</button>
-        <button mat-flat-button routerLink="/socialMedia">REDE SOCIAL</button>
-        <button mat-flat-button routerLink="/user">USUÁRIO</button>
-        <button mat-flat-button routerLink="/login">LOGIN</button>
+        <button
+          type="button"
+          aria-label="Toggle sidenav"
+          mat-icon-button
+          (click)="drawer.toggle()"
+          *ngIf="isHandset$ | async"
+        >
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+        <div>
+          <button mat-flat-button routerLink="/event">EVENTO</button>
+          <button mat-flat-button routerLink="/speaker">PALESTRANTE</button>
+          <button mat-flat-button routerLink="/socialMedia">REDE SOCIAL</button>
+          <button mat-flat-button routerLink="/user">USUÁRIO</button>
+        </div>
+      </div>
+      <div id="log-div">
+        <p *ngIf="service.currentUser$ | async as user">
+          {{ user.userName | titlecase }}
+        </p>
+
+        <button mat-flat-button (click)="logout()">LOGOUT</button>
       </div>
     </mat-toolbar>
     <router-outlet></router-outlet>

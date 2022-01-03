@@ -18,8 +18,8 @@ import { ISocialMedia } from './../../social-media/shared/isocial-media';
   styleUrls: ['./speaker-form.component.scss'],
 })
 export class SpeakerFormComponent implements OnInit {
-  public formUpdate: ISpeaker;
-  public formulario: FormGroup;
+  public formUpdate = {} as ISpeaker;
+  public formulario = {} as FormGroup;
   public formValue;
   public urlAtiva: string;
   public pageTitle: string;

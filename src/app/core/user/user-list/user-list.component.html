@@ -24,7 +24,7 @@
       <ng-container matColumnDef="IsActive">
         <th mat-header-cell *matHeaderCellDef>Condição do Usuário</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.isActive == "yes" ? "Ativo" : "Inativo" }}
+          {{ element.isActive == true ? "Ativo" : "Inativo" }}
         </td>
       </ng-container>
 

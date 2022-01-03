@@ -1,4 +1,6 @@
-import { HttpClientModule } from '@angular/common/http';
+import { registerLocaleData } from '@angular/common';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import ptBr from '@angular/common/locales/pt';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -9,11 +11,11 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './core/header/header.component';
 import { LoginComponent } from './core/login/login.component';
 import { BotaoConfirmaComponent } from './Shared/botao-confirma/botao-confirma.component';
+import { JwtInterceptor } from './Shared/interceptors/jwt.interceptor';
 import { MaterialModule } from './Shared/material.module';
+import { PageNotFoundComponent } from './Shared/page-not-found/page-not-found.component';
 
 // configuracao do locale pt-BR
-import { registerLocaleData } from '@angular/common';
-import ptBr from '@angular/common/locales/pt';
 registerLocaleData(ptBr);
 
 @NgModule({
@@ -22,6 +24,7 @@ registerLocaleData(ptBr);
     HeaderComponent,
     LoginComponent,
     BotaoConfirmaComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,6 +40,7 @@ registerLocaleData(ptBr);
       provide: LOCALE_ID,
       useValue: 'pt-BR',
     },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.formulario = this.fb.group({
-      email: [null, Validators.required],
+      email: [null, [Validators.email, Validators.required]],
       password: [null, Validators.required],
     });
   }
@@ -31,13 +31,15 @@ export class LoginComponent implements OnInit {
   authentication() {
     this.service.login(this.formulario.value).subscribe({
       next: () => this.router.navigate(['event']),
-      error: (erro: any) => {
-        if (erro === '401') {
-          this.snackBar.open('Usuário ou senha inválidos', '', {
-            duration: 2000,
+      error: (error: any) => {
+        if (error.status == 401) {
+          this.snackBar.open('Usuário e/ou senha inválidos', '', {
+            duration: 3000,
           });
         } else {
-          console.error(erro);
+          this.snackBar.open('Erro ao tentar conectar no servidor', '', {
+            duration: 4000,
+          });
         }
       },
     });

@@ -20,8 +20,6 @@ export class LoginService {
   constructor(private http: HttpClient) {}
 
   public login(source: Ilogin): Observable<void> {
-    console.log('service');
-    console.log(source);
     return this.http
       .post<IUser>('https://localhost:7217/api/v1/login', source)
       .pipe(
@@ -31,8 +29,7 @@ export class LoginService {
           if (user) {
             this.setCurrentUser(user);
           }
-        }),
-        catchError(this.handleError)
+        })
       );
   }
 
@@ -45,16 +42,5 @@ export class LoginService {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
     this.currentUserSource.complete();
-  }
-
-  //  Treatment error
-  public handleError(errorResponse: HttpErrorResponse) {
-    if (errorResponse.error instanceof ErrorEvent) {
-      console.error('Client Side Error :', errorResponse.error.message);
-    } else {
-      console.error('Server Side Error :', errorResponse);
-    }
-    alert(errorResponse.error.message);
-    return throwError(errorResponse.error.message);
   }
 }

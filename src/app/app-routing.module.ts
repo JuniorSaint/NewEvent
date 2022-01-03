@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './core/login/login.component';
+import { AuthGuard } from './Shared/guard/auth.guard';
+import { PageNotFoundComponent } from './Shared/page-not-found/page-not-found.component';
 
 const routes: Routes = [
   {
@@ -21,12 +23,14 @@ const routes: Routes = [
       ),
   },
 
-  // { path: 'lot', loadChildren: () => import('./core/event/lot/shared/lot.module').then(mod => mod.LotModule) },
+  { path: 'logout', component: LoginComponent },
 
-  { path: 'login', component: LoginComponent },
-  // { path: 'report', component: ReportComponent, data: { Title: 'Relatório' } },
-  // { path: '', pathMatch: 'full', redirectTo: 'login' },
-  // { path: '**', component: PageNotFoundComponent, data: { Title: 'Page Not Found' } }
+  { path: '', pathMatch: 'full', redirectTo: 'logout' },
+  {
+    path: '**',
+    component: PageNotFoundComponent,
+    data: { Title: 'Page Not Found' },
+  },
 ];
 
 @NgModule({

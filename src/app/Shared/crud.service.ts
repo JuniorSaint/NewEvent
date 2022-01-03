@@ -1,9 +1,8 @@
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Inject, Injectable, Injector } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, map, retry, take } from 'rxjs/operators';
-import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
-import { HttpErrorResponse } from '@angular/common/http';
-import { throwError } from 'rxjs';
+
 import { IInterfacePadrao } from './iinterface.stander';
 import { PaginatedResult } from './pagination';
 
@@ -13,6 +12,9 @@ import { PaginatedResult } from './pagination';
 export abstract class CrudServico<T extends IInterfacePadrao> {
   http: HttpClient;
   URL: string;
+  tokenHeader = new HttpHeaders({
+    Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).token}`,
+  });
 
   constructor(@Inject(String) API: string, injector: Injector) {
     this.http = injector.get(HttpClient);
@@ -47,17 +49,23 @@ export abstract class CrudServico<T extends IInterfacePadrao> {
 
     if (term != null && term != '') params = params.append('term', term);
 
-    return this.http.get<T[]>(this.URL, { observe: 'response', params }).pipe(
-      map((response) => {
-        paginatedResult.result = response.body;
-        if (response.headers.has('Pagination')) {
-          paginatedResult.pagination = JSON.parse(
-            response.headers.get('Pagination')
-          );
-        }
-        return paginatedResult;
+    return this.http
+      .get<T[]>(this.URL, {
+        headers: this.tokenHeader,
+        observe: 'response',
+        params,
       })
-    );
+      .pipe(
+        map((response) => {
+          paginatedResult.result = response.body;
+          if (response.headers.has('Pagination')) {
+            paginatedResult.pagination = JSON.parse(
+              response.headers.get('Pagination')
+            );
+          }
+          return paginatedResult;
+        })
+      );
   }
 
   public create(source: T): Observable<T> {
@@ -88,14 +96,16 @@ export abstract class CrudServico<T extends IInterfacePadrao> {
       .pipe(catchError(this.handleError));
   }
 
-  //  Tratamento de erro
-  public handleError(errorResponse: HttpErrorResponse) {
-    if (errorResponse.error instanceof ErrorEvent) {
-      console.error('Client Side Error :', errorResponse.error.message);
+  handleError(error) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      // client-side error
+      errorMessage = `Error: ${error.error.message}`;
     } else {
-      console.error('Server Side Error :', errorResponse);
+      // server-side error
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    alert(errorResponse.error.message);
-    return throwError(errorResponse.error.message);
+    console.log(errorMessage);
+    return throwError(errorMessage);
   }
 }

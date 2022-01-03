@@ -17,12 +17,12 @@ import { LotService } from './../shared/lot.service';
   styleUrls: ['./event-form.component.scss'],
 })
 export class EventFormComponent implements OnInit {
-  private formUpdate: IEvent;
+  private formUpdate = {} as IEvent;
   private currentLot = { id: '', name: '', index: 0 };
   public file: File;
   public imagemURL = 'assets/img/upload-image.png';
   public formulario: FormGroup;
-  public formValue: IEvent;
+  public formValue = {} as IEvent;
   public urlAtiva: string;
   public pageTitle: string;
   public txtBtn: string;

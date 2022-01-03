@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IEvent } from './../../event/shared/ievent';
 import { Component, OnInit, Injector } from '@angular/core';
@@ -17,31 +17,33 @@ import { UserService } from '../Shared/user.service';
   styleUrls: ['./user-form.component.scss'],
 })
 export class UserFormComponent implements OnInit {
-  public formUpdate: IUser;
+  public formUpdate = {} as IUser;
   public emailUser$: any;
   public emalMatch = true;
   public hide = true;
   public senhaMatching: boolean;
   public formulario: FormGroup;
   public urlAtiva: string;
-  public formValue: IUser;
+  public formValue = {} as IUser;
   public pageTitle: string;
   public txtBtn: string;
-  public teste = 'teste';
 
   constructor(
     private service: UserService,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private activedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    this.urlAtiva = this.activedRoute.snapshot.url[0]?.path ?? ' '; // take params url
+
     this.formulario = this.fb.group(
       {
         id: [],
         userName: [null, Validators.required],
-        email: [
+        userEmail: [
           null,
           [
             Validators.required,
@@ -54,15 +56,17 @@ export class UserFormComponent implements OnInit {
         userImage: [null],
         phoneNumber: [null],
         userType: [null, Validators.required],
+        dateBirthday: [null],
       },
       { validator: [this.matchingPasswords] } as AbstractControlOptions
     );
 
     this.popularForm();
+    this.showHeaderButton();
   }
 
   onSubmit(): void {
-    this.formValue = this.formulario.value;
+    this.formValue = { ...this.formulario.value };
     if (this.urlAtiva === 'new') {
       this.save(this.formValue);
     } else {
@@ -92,7 +96,7 @@ export class UserFormComponent implements OnInit {
     if (this.urlAtiva !== 'new') {
       this.service.getByID(this.urlAtiva).subscribe({
         next: (dados) => {
-          (this.formUpdate = dados),
+          (this.formUpdate = { ...dados }),
             this.formulario.patchValue(this.formUpdate);
         },
         error: (error) => console.log(error),
@@ -100,7 +104,7 @@ export class UserFormComponent implements OnInit {
     }
   }
 
-  exibirCabecalhoBotao(): void {
+  showHeaderButton(): void {
     if (this.urlAtiva !== 'new') {
       this.pageTitle = 'Editando o formulário';
       this.txtBtn = 'Atualizar';
